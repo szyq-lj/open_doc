@@ -2,7 +2,7 @@
 ## 对码
 ### 对码原则
 * 规则1：本位码+批准文号+通用名+规格+生产厂家
-* 规则2：批准文号+通用名+规格+生产厂家
+* 规则2：批准文号+通用名+规格+生产厂家 [英克使用此规则]
 * 规则3：通用名+规格+生产厂家
 ### 对码字段
 | 字段名        | 中文列名   |  数据类型  | 是否必填 | 备注 |
@@ -10,11 +10,10 @@
 | genre      | 药学分类  |   无符号整型     | 否 | 1-中成药，2-西药 |
 | standard_code        |   药品本位码   |   varchar(256)   | 否 | 多个用英文逗号隔开 |
 | otc_type      | 是否处方药 | 整型 | 否 | -1未知，0-处方药，1-非处方药 |
-| medicare_category_id | 医保类别 | 无符号整型 | 否 | 0-非医保、1-甲、2-乙、3-丙、4-民族药 |
 | generic_name | 药品通用名 | varchar(100) | 是 | - |
 | trade_name | 商品名称 | varchar(100) | 否 | - |
 | en_name | 英文名 | varchar(200) | 否 | - |
-| specification | 规格 | varchar(256) | 否 | - |
+| specification | 药品最小规格 | varchar(256) | 是 | - |
 | formulation | 剂型 | varchar(20) | 否 | - |
 | approval_number | 批准文号 | varchar(20) | 是 | - |
 | product_type | 产品类型 | 无符号整型 | 否 | 等同cfda中的产品类型 ：0-未知，1-中成药，2-化学药品，3-生物制品，4-体外化学诊断试剂，5-药用>辅料，6-进口分包装药 |
@@ -22,17 +21,11 @@
 | manufacturer_address | 生产地址 | varchar(200) | 否 | - |
 | manufacturer_phone | 联系方式 | varchar(50) | 否 | - |
 | approval_date | 批准日期 | 无符号整型 | 否 | 格式:yyyyMMdd |
-| restrain_type | 限制分类 | 无符号整型 | 否 | - |
-| minimum_sale | 起售数量 | 无符号整型 | 否 | - |
-| sale_unit | 售卖单位 | varchar(8) | 否 | - |
-| spu_sort | 自定义排序 | 无符号整型 | 否 | 自定义排序权重，越大越前 |
-| spu_status | 状态 | 整型 | 否 | -1-无效，0-未知（默认），1-有效 |
-| keywords | 搜索关键词 | varchar(400) | 否 | 由 通用名、通用名全拼、通用名拼音首字母、商品名、商品名全拼、商品名拼音首字母、生产厂家、标签 组成，之间用英文逗号隔开 |
 | shelf_life | 有效期 | varchar(128) | 否 | - |
 | tags | 标签 | text | 否 | - |
 | indication | 功能主治/适应症 | text | 否 | - |
 | ingredient | 成份 | text | 否 | - |
-| usage | 用法用量 | text | 是 | - |
+| usage | 用法用量 | text | 否 | - |
 | pharmacological | 药理作用 | text | 否 | - |
 | pharmacokinetics | 药动学 | text | 否 | - |
 | drug_interaction | 药物相互作用 | text | 否 | - |
@@ -68,7 +61,6 @@
     "genre": 1,
     "standard_code": "1234",
     "otc_type": 1,
-    "medicare_category_id": 1,
     "generic_name": "药品通用名",
     "trade_name": "商品名称",
     "en_name": "英文名称",
@@ -80,12 +72,6 @@
     "manufacturer_address": "生产地址",
     "manufacturer_phone": "联系方式",
     "approval_date": 20161117,
-    "restrain_type": 1,
-    "minimum_sale": 10,
-    "sale_unit": "售卖单位",
-    "spu_sort": 1234,
-    "spu_status": 1,
-    "keywords": "搜索关键字",
     "shelf_life": "2019-12-31",
     "tags": "标签",
     "indication": "功能主治/适应症",
@@ -100,11 +86,11 @@
     "consideration": "注意事项",
     "storage": "贮藏",
 
-    "goods_id": 1111,                       // erp内的货品id
-    "erp_specification": "规格字符串"       // erp货品规格
+    "goods_id": 1111,                       // erp内的货品id 必填
+    "erp_specification": "规格字符串"       // erp货品规格 必填
 }
 ```
-#### 响应格式
+#### 响应格式中数据字段
 ```
 {
 }
@@ -113,13 +99,13 @@
 #### 请求格式
 ```
 {
-    "erp_store_id": "1234",             // erp内的药店id            类型: 字符串
-    "goods_id": 1111,                   // erp内货品id              类型: 整型
-    "entry_goods_id": 2222,             // erp内独立货品id          类型: 整型
-    "stock": 10000                      // 库存                     类型: 整型
+    "erp_store_id": "1234",             // erp内的药店id            必填 类型: 字符串
+    "goods_id": 1111,                   // erp内货品id              必填 类型: 整型
+    "entry_goods_id": 2222,             // erp内独立货品id         必填 类型: 整型
+    "stock": 10000                      // 库存                    必填 类型: 整型
 }
 ```
-#### 响应格式
+#### 响应格式中数据字段
 ```
 {
 }
@@ -128,13 +114,13 @@
 #### 请求格式
 ```
 {
-    "erp_store_id": "1234",             // erp内的药店id            类型: 字符串
-    "goods_id": 1111,                   // erp内货品id              类型: 整型
-    "entry_goods_id": 2222,             // erp内独立货品id          类型: 整型
-    "sale_price": 10000                 // 销售价格(单位: 分)       类型: 整型
+    "erp_store_id": "1234",             // erp内的药店id            必填 类型: 字符串
+    "goods_id": 1111,                   // erp内货品id              必填 类型: 整型
+    "entry_goods_id": 2222,             // erp内独立货品id          必填 类型: 整型
+    "sale_price": 10000                 // 销售价格(单位: 分)       必填 类型: 整型
 }
 ```
-#### 响应格式
+#### 响应格式中数据字段
 ```
 {
 }
@@ -150,7 +136,7 @@
     "status": -1                        // 上下架状态 -1 下架 1 上架 类型: 整型
 }
 ```
-#### 响应格式
+#### 响应格式中数据字段
 ```
 {
 }
