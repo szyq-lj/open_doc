@@ -5,7 +5,7 @@
 ### 对码字段
 | 字段名        | 中文列名   |  数据类型  | 是否必填 | 备注 |
 | :--------:   | :-----:  | :----:  | :---------: | :-------: |
-| standard_code        |   药品本位码   |   varchar(256)   | 否 | 多个用英文逗号隔开 |
+| standard_code        |   药品本位码   |   varchar(256)   | 是 | 14位标准(请参照国家标准) |
 | generic_name | 药品通用名 | varchar(100) | 是 | - |
 | approval_number | 批准文号 | varchar(20) | 是 | - |
 | manufacturer_title | 生产单位 | varchar(100) | 是 | - |
