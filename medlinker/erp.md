@@ -1,39 +1,14 @@
 # ERP对接文档
 ## 对码
 ### 对码原则
-* 规则1：本位码+批准文号+通用名+规格+生产厂家
-* 规则2：批准文号+通用名+规格+生产厂家 [英克使用此规则]
-* 规则3：通用名+规格+生产厂家
+* 规则：本位码+批准文号+通用名+生产厂家
 ### 对码字段
 | 字段名        | 中文列名   |  数据类型  | 是否必填 | 备注 |
 | :--------:   | :-----:  | :----:  | :---------: | :-------: |
-| genre      | 药学分类  |   无符号整型     | 否 | 1-中成药，2-西药 |
 | standard_code        |   药品本位码   |   varchar(256)   | 否 | 多个用英文逗号隔开 |
-| otc_type      | 是否处方药 | 整型 | 否 | -1未知，0-处方药，1-非处方药 |
 | generic_name | 药品通用名 | varchar(100) | 是 | - |
-| trade_name | 商品名称 | varchar(100) | 否 | - |
-| en_name | 英文名 | varchar(200) | 否 | - |
-| specification | 药品最小规格 | varchar(256) | 是 | - |
-| formulation | 剂型 | varchar(20) | 否 | - |
 | approval_number | 批准文号 | varchar(20) | 是 | - |
-| product_type | 产品类型 | 无符号整型 | 否 | 等同cfda中的产品类型 ：0-未知，1-中成药，2-化学药品，3-生物制品，4-体外化学诊断试剂，5-药用>辅料，6-进口分包装药 |
 | manufacturer_title | 生产单位 | varchar(100) | 是 | - |
-| manufacturer_address | 生产地址 | varchar(200) | 否 | - |
-| manufacturer_phone | 联系方式 | varchar(50) | 否 | - |
-| approval_date | 批准日期 | 无符号整型 | 否 | 格式:yyyyMMdd |
-| shelf_life | 有效期 | varchar(128) | 否 | - |
-| tags | 标签 | text | 否 | - |
-| indication | 功能主治/适应症 | text | 否 | - |
-| ingredient | 成份 | text | 否 | - |
-| usage | 用法用量 | text | 否 | - |
-| pharmacological | 药理作用 | text | 否 | - |
-| pharmacokinetics | 药动学 | text | 否 | - |
-| drug_interaction | 药物相互作用 | text | 否 | - |
-| adverse_reaction | 不良反应 | text | 否 | - |
-| contraindication | 禁忌 | text | 否 | - |
-| special_crowd_notice | 特殊人群用药 | text | 否 | - |
-| consideration | 注意事项 | text | 否 | - |
-| storage | 贮藏 | text | 否 | - |
 
 ## API文档
 ### 鉴权方式
@@ -58,36 +33,14 @@
 #### 请求格式
 ```
 {
-    "genre": 1,
     "standard_code": "1234",
-    "otc_type": 1,
     "generic_name": "药品通用名",
-    "trade_name": "商品名称",
-    "en_name": "英文名称",
-    "specification": "规格",
-    "formulation": "剂型",
     "approval_number": "批准文号",
-    "product_type": 1,
     "manufacturer_title": "生产单位",
-    "manufacturer_address": "生产地址",
-    "manufacturer_phone": "联系方式",
-    "approval_date": 20161117,
-    "shelf_life": "2019-12-31",
-    "tags": "标签",
-    "indication": "功能主治/适应症",
-    "ingredient": "成份",
-    "usage": "用法用量",
-    "pharmacological": "药理作用",
-    "pharmacokinetics": "药动学",
-    "drug_interaction": "药物相互作用",
-    "adverse_reaction": "不良反应",
-    "contraindication": "禁忌",
-    "special_crowd_notice": "特殊人群用药",
-    "consideration": "注意事项",
-    "storage": "贮藏",
 
     "goods_id": 1111,                       // erp内的货品id 必填
-    "erp_specification": "规格字符串"       // erp货品规格 必填
+    "erp_specification": "规格字符串",      // erp货品规格 必填
+    "base_unit": "基本单位"                 // erp的药品基本单位 必填
 }
 ```
 #### 响应格式中数据字段
